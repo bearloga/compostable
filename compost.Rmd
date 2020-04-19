@@ -1,0 +1,65 @@
+---
+title: "Compostables"
+output:
+  html_document:
+    fig_caption: true
+    md_extensions: +link_attributes
+    theme: null
+    css: styles.css
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+```
+
+```{r images}
+library(dplyr)
+library(glue)
+
+images <- tibble(path = fs::dir_ls("images", recurse = TRUE, type = "file")) %>%
+  mutate(
+    type = sub("^images/((not )?compostable)/.*$", "\\1", path),
+    item = sub("[0-9]{1,2} - (.*)\\.(png|jpg)", "\\1", fs::path_file(path))
+  ) %>%
+  arrange(path) %>%
+  split(x = ., f = .$type)
+
+image_rows <- function(imgs) {
+  template <- "<div class='item'>
+  ![${item}](${path}){height=150px}
+  <p class='caption'>${item}</p>
+  </div>"
+  floated <- imgs %>%
+    transmute(graphic = glue(template, .open = "${")) %>%
+    pull(graphic) %>%
+    paste0(collapse = "\n")
+  return(floated)
+}
+```
+
+## `r emo::ji("check")` What to compost
+
+```{r compostable, results='asis'}
+cat(image_rows(images$compostable))
+```
+
+------
+
+## `r emo::ji("x")` What not to compost
+
+```{r not_compostable, results='asis'}
+cat(image_rows(images$`not compostable`))
+```
+
+------
+
+## How to compost
+
+- Place food scraps in your bin druing food prep or after meals
+- Once your countertop compost bin is full, do either:
+  - Remove the waste (*with* your compostable bags) and toss in your yard trimmings garbage can.
+  - If you have a composting area, your composting waste (*without* the bags) can also be discarded there.
+- It is recommended that you replace your filter if you have a thick layer of mold growing on your filter.
+  - If this is a continuing issue, you may need to adjust what you compost and how often you empty your bin.
+  - Having your compost piled high in the bin so it touches the filter is not recommended and may aid in this issue as well.

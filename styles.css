@@ -1,0 +1,30 @@
+.title {
+  display: none;
+}
+body {
+  text-align: left;
+  font-family: "Palatino";
+  padding: 10px 50px;
+}
+h2 {
+  font-size: 18pt;
+  font-weight: bold;
+}
+.item {
+  display: inline-block;
+  width: 180px;
+  height: 225px;
+  margin-left: 20px;
+  text-align: center;
+  vertical-align: top;
+}
+.caption {
+  margin: 0;
+  text-align: center;
+  font-style: italic;
+  font-size: 18pt;
+}
+#how-to-compost li {
+  font-size: 16pt;
+  line-height: 20pt;
+}
